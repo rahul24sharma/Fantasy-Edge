@@ -36,27 +36,3 @@ export async function GET(
     );
   }
 }
-
-// export async function getStandings(id: string) {
-//   try {
-//     const response = await fetch(`${BASE_URL}/competitions/${id}/standings`, {
-//       headers: {
-//         'X-Auth-Token': API_KEY,
-//       },
-//       next: { revalidate: 300 }, // Cache for 5 minutes
-//     });
-
-//     if (!response.ok) {
-//       return null;
-//     }
-
-//     const data = await response.json();
-//     return NextResponse.json(data);
-//   } catch (error) {
-//     console.error('Standings API error:', error);
-//     return NextResponse.json(
-//       { error: 'Failed to fetch standings' },
-//       { status: 500 }
-//     );
-//   }
-// }

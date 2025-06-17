@@ -1,6 +1,7 @@
 // components/UpcomingMatches.js
 import { useState, useEffect } from 'react';
-import { footballApi } from '@/app/api/footballData/footballdata';
+// import { footballApi } from '@/app/api/footballData/footballdata';
+import { footballApi } from '@/lib/api';
 import Link from 'next/link';
 
 export default function UpcomingMatches({ competitionId }) {

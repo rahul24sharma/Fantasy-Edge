@@ -1,13 +1,30 @@
-// app/competitions/page.tsx
+// src/components/competitionselector/CompetitionSelector.tsx
 
 import { Suspense } from 'react'
-import { fetchCompetitionsByArea } from '@/lib/api'
+// Import a function that actually exists - you'll need to check your @/lib/api file
+// import { fetchCompetitionsByArea } from '@/lib/api'
 import CompetitionList from '../competitionlist/CompetitionList'
 
 interface CompetitionsPageProps {
   searchParams: {
     area?: string
     name?: string
+  }
+}
+
+// Create the missing function or use an existing one
+async function fetchCompetitionsByArea(areaId: number) {
+  try {
+    // Use your existing API route or function
+    const response = await fetch(`/api/competitions?area=${areaId}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch competitions');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching competitions by area:', error);
+    return { competitions: [] };
   }
 }
 

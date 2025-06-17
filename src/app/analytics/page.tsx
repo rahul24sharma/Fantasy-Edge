@@ -2,7 +2,7 @@
 import { MatchesList } from '@/components/matchlist/MatchList';
 import { useCompetitions } from '@/hooks/useFootballData';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { 
   Trophy, 
   Calendar, 
@@ -34,7 +34,7 @@ export default function Analytics() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -45,33 +45,33 @@ export default function Analytics() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 100,
         damping: 12
       }
     }
   };
 
-  const cardHoverVariants = {
+  const cardHoverVariants: Variants = {
     hover: {
       y: -8,
       scale: 1.02,
       rotateX: 5,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 400,
         damping: 25
       }
     }
   };
 
-  const glowVariants = {
+  const glowVariants: Variants = {
     animate: {
       boxShadow: [
         "0 0 20px rgba(59, 130, 246, 0.3)",

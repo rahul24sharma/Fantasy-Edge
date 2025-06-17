@@ -1,13 +1,14 @@
 const BASE_URL = process.env.FOOTBALL_API_BASE_URL! || "https://api.football-data.org/v4";
-const API_KEY ="8bba67bee162456589814afddce138db";
+const API_KEY = "8bba67bee162456589814afddce138db";
 
 export class FootballApiClient {
-  private async makeRequest<T>(endpoint: string, params?: Record<string, string>): Promise<T> {
+  // Fixed: Allow undefined values in params
+  private async makeRequest<T>(endpoint: string, params?: Record<string, string | undefined>): Promise<T> {
     const url = new URL(`${BASE_URL}${endpoint}`);
     
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
-        if (value) url.searchParams.append(key, value);
+        if (value) url.searchParams.append(key, value); // This already handles undefined
       });
     }
 
@@ -63,8 +64,13 @@ export class FootballApiClient {
     return this.makeRequest(`/teams/${id}`);
   }
 
+  // Fixed: Filter out undefined values before passing to makeRequest
   async getTeams(limit?: string, offset?: string) {
-    return this.makeRequest('/teams/', { limit, offset });
+    const params: Record<string, string> = {};
+    if (limit) params.limit = limit;
+    if (offset) params.offset = offset;
+    
+    return this.makeRequest('/teams/', Object.keys(params).length > 0 ? params : undefined);
   }
 
   async getMatches(filters?: {
@@ -88,16 +94,6 @@ export class FootballApiClient {
   async getMatch(id: string) {
     return this.makeRequest(`/matches/${id}`);
   }
-
-  // async getMatches(filters?: {
-  //   competitions?: string;
-  //   ids?: string;
-  //   dateFrom?: string;
-  //   dateTo?: string;
-  //   status?: string;
-  // }) {
-  //   return this.makeRequest('/matches', filters);
-  // }
 
   async getMatchHead2Head(id: string, filters?: {
     limit?: string;
@@ -133,7 +129,7 @@ export class FootballApiClient {
     return this.makeRequest(`/areas/${id}`);
   }
 
-   async  getCompetitionDetails(id: string) {
+  async getCompetitionDetails(id: string) {
     return this.makeRequest(`/competitions/${id}`);
   }
 }

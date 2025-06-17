@@ -1,4 +1,3 @@
-// The file has been deleted as per the suggested code change.
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation"; 
@@ -21,7 +20,9 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [focusedField, setFocusedField] = useState("");
   const router = useRouter();
-  const handleChange = (e) => {
+
+  // Fixed: Added proper TypeScript type
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     if (error) setError(""); // Clear error when typing
   };
@@ -37,24 +38,29 @@ export default function LoginPage() {
         email: form.email,
         password: form.password,
       });
-      console.log(result)
+      
+      console.log('SignIn result:', result);
 
       if (result?.error) {
-        console.log(error)
+        console.log('SignIn error:', result.error);
         setError(result.error);
-      } else {
+      } else if (result?.ok) {
         router.push('/dashboard');
+      } else {
+        setError('Login failed. Please try again.');
       }
     } catch (err) {
+      console.error('Login error:', err);
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleKeyPress = (e) => {
+  // Fixed: Added proper TypeScript type
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleLogin();
+      handleSubmit(e as any); // Cast to any since we're calling it manually
     }
   };
 
@@ -87,7 +93,7 @@ export default function LoginPage() {
             <p className="text-gray-300">Sign in to your account to continue</p>
           </div>
 
-          <div className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div className="relative">
               <div
@@ -182,8 +188,8 @@ export default function LoginPage() {
             )}
 
             {/* Login Button */}
-            {/* <button
-              onClick={handleLogin}
+            <button
+              type="submit"
               disabled={loading}
               className="group relative w-full py-4 bg-gradient-to-r from-green-600 via-emerald-600 to-green-500 hover:from-green-500 hover:via-emerald-500 hover:to-green-400 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
@@ -201,24 +207,7 @@ export default function LoginPage() {
                   </>
                 )}
               </div>
-            </button> */}
-            <button
-    onClick={handleSubmit}
-    disabled={loading}
-    className="group relative w-full py-4 bg-gradient-to-r from-green-600 via-emerald-600 to-green-500 hover:from-green-500 hover:via-emerald-500 hover:to-green-400 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-  >
-    <div className="absolute inset-0 bg-gradient-to-r from-green-600 via-emerald-600 to-green-500 rounded-xl blur opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-    <div className="relative flex items-center justify-center space-x-2">
-      {loading ? (
-        <>
-          <Loader2 className="w-5 h-5 animate-spin" />
-          <span>Signing In...</span>
-        </>
-      ) : (
-        <span>Sign In</span>
-      )}
-    </div>
-  </button>
+            </button>
 
             {/* Forgot Password */}
             <div className="text-center">
@@ -229,26 +218,15 @@ export default function LoginPage() {
                 Forgot your password?
               </button>
             </div>
+          </form>
 
-            {/* Demo credentials */}
-            {/* <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-xl">
-              <p className="text-green-300 text-xs text-center">
-                <p className="text-gray-400 text-sm">
-                  Don't have an account?{" "}
-                  <button className="text-green-400 hover:text-green-300 transition-colors duration-300 font-medium">
-                    Sign up here
-                  </button>
-                </p>{" "}
-              </p>
-            </div> */}
-            {/* Demo credentials */}
-
-            <p className="text-gray-400 text-sm text-center mt-4">
+          <div className="mt-6 space-y-4">
+            <p className="text-gray-400 text-sm text-center">
               Don't have an account?{" "}
               <Link href="/signup">
-                <button className="text-green-400 hover:text-green-300 transition-colors duration-300 font-medium cursor-pointer">
+                <span className="text-green-400 hover:text-green-300 transition-colors duration-300 font-medium cursor-pointer">
                   Sign up here
-                </button>
+                </span>
               </Link>
             </p>
 
@@ -257,9 +235,6 @@ export default function LoginPage() {
                 Demo credentials: demo@example.com / password
               </p>
             </div>
-
-            {/* Sign up link */}
-            
           </div>
 
           {/* Decorative elements */}

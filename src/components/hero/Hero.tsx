@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useRef, useMemo, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { 
-  OrbitControls, 
   Sphere, 
   Box, 
   Cylinder,
@@ -11,13 +10,10 @@ import {
   Environment,
   Float,
   Sparkles,
-  Trail,
-  useTexture,
   Stars,
   Cloud
 } from '@react-three/drei';
 import { motion } from 'framer-motion';
-import * as THREE from 'three';
 
 // Animated Football with realistic texture and spin
 function AnimatedFootball({ position = [0, 0, 0] }) {

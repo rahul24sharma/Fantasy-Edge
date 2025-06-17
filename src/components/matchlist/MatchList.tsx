@@ -13,8 +13,6 @@ import {
   Zap,
   Target,
   Users,
-  Globe,
-  Timer
 } from 'lucide-react';
 
 // Define the Match interface

@@ -1,7 +1,7 @@
 // src/hooks/useFootballData.ts
 import { useState, useEffect } from 'react';
 // import { Competition, Match, Team, Standing } from '@/types/football';
-import { Competition, Match, Team, Standing} from '@/lib/types/football';
+import { Competition, Match, Standing} from '@/lib/types/football';
 
 export function useCompetitions(areas?: string) {
   const [competitions, setCompetitions] = useState<Competition[]>([]);

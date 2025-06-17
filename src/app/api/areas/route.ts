@@ -2,7 +2,7 @@
 
 import { NextResponse } from 'next/server';
 
-const API_KEY = "8bba67bee162456589814afddce138db";
+const API_KEY = process.env.NEXT_PUBLIC_FOOTBALL_DATA_API_KEY;
 const BASE_URL = 'https://api.football-data.org/v4';
 
 export async function GET() {

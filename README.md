@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ⚽ Fantasy Edge - Football Match Analytics & Fan Engagement Platform
 
-## Getting Started
+Fantasy Edge is a full-stack football analytics platform that combines real-time data, fantasy football insights, and fan engagement features. Built with Next.js, it allows users to explore match statistics, standings, video highlights, and team details from the world's top football leagues — all in one interactive dashboard.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🏟️ View **live and scheduled matches** with real-time data
+- 📊 Browse **Premier League standings**
+- 📺 Watch **video highlights** powered by Scorebat
+- 📅 Explore matches across **multiple competitions** (EPL, La Liga, UCL, etc.)
+- 👥 Dive into team data, top scorers, and upcoming fixtures
+- 🔐 Authentication with **NextAuth.js** (login, signup, logout)
+- 🎮 Future features: Fantasy team builder, player comparison tools, user polls
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧰 Tech Stack
 
-## Learn More
+- **Framework**: Next.js 14 (App Router)
+- **Frontend**: React, Tailwind CSS, Framer Motion
+- **Backend**: Node.js API routes
+- **Auth**: NextAuth.js (Credentials Provider)
+- **Data Sources**:  
+  - [Football-Data.org](https://www.football-data.org/) – match stats, teams, standings  
+  - [Scorebat API](https://www.scorebat.com/video-api/) – video highlights
+- **Deployment**: Vercel (CI/CD)
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📂 Folder Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+src/
+├── app/
+│ ├── dashboard/ # Main dashboard route
+│ ├── login/ # Auth pages
+│ └── api/footballData.ts # All API integration logic
+├── components/
+│ ├── navbar/ # Main navigation
+│ ├── matchlist/ # Live & scheduled matches
+│ ├── standings/ # League standings table
+│ ├── highlights/ # Scorebat video highlights
+│ └── competitionselector/ # Filter by league/competition
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+yaml
+Copy
+Edit

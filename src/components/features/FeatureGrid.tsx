@@ -35,7 +35,8 @@ const features = [
 ];
 
 export default function FeatureGrid() {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+  // Fixed: Properly typed state to allow both number and null
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <div className="relative min-h-screen px-6 py-20">

@@ -11,6 +11,7 @@ interface AreaListProps {
 
 const AreaList: React.FC<AreaListProps> = ({ areas, onAreaClick }) => {
   if (!areas || areas.length === 0) {
+    console.log(areas)
     return <div className="text-gray-500">No areas available</div>
   }
 
@@ -23,7 +24,10 @@ const AreaList: React.FC<AreaListProps> = ({ areas, onAreaClick }) => {
           onClick={() => onAreaClick(area)}
         >
           <h2 className="font-bold text-lg">{area.name}</h2>
-          <p className="text-gray-600">Country: {area.countryCode}</p>
+          {/* Fixed: Only show if countryCode exists */}
+          {(area as any).countryCode && (
+            <p className="text-gray-600">Country: {(area as any).countryCode}</p>
+          )}
           {area.parentArea && (
             <p className="text-sm text-gray-500 mt-1">Parent region: {area.parentArea}</p>
           )}

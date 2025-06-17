@@ -11,12 +11,12 @@ export async function GET(
     const { id } = await params; // Changed: await params and destructure
     const searchParams = request.nextUrl.searchParams;
     const filters = {
-      matchday: searchParams.get('matchday'),
-      season: searchParams.get('season'),
-      date: searchParams.get('date'),
+      matchday: searchParams.get('matchday') || undefined,
+      season: searchParams.get('season') || undefined,
+      date: searchParams.get('date') || undefined,
     };
 
-    const standings = await footballApi.getCompetitionStandings(id, filters); // Changed: use id instead of params.id
+    const standings = await footballApi.getCompetitionStandings(id, filters);
     return NextResponse.json(standings);
   } catch (error) {
     console.error('Error fetching standings:', error);

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; 
-import { signIn } from 'next-auth/react';
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 import {
   Mail,
@@ -29,29 +29,31 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
-      const result = await signIn('credentials', {
+      const result = await signIn("credentials", {
         redirect: false,
         email: form.email,
         password: form.password,
       });
-      
-      console.log('SignIn result:', result);
+
+      console.log("SignIn result:", result);
 
       if (result?.error) {
-        console.log('SignIn error:', result.error);
+        console.log("SignIn error:", result.error);
         setError(result.error);
       } else if (result?.ok) {
-        router.push('/dashboard');
+        console.log("Login successful, redirecting...");
+        // Force redirect instead of using router.push
+        window.location.href = "/dashboard";
       } else {
-        setError('Login failed. Please try again.');
+        setError("Login failed. Please try again.");
       }
     } catch (err) {
-      console.error('Login error:', err);
-      setError('An unexpected error occurred');
+      console.error("Login error:", err);
+      setError("An unexpected error occurred");
     } finally {
       setLoading(false);
     }

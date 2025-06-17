@@ -8,14 +8,19 @@ import CompetitionHeader from './components/CompetitionHeader';
 import CurrentSeasonCard from './components/CurrentSeasonCard';
 import RecentSeasonsTable from './components/RecentSeasonsTable';
 import { console } from 'inspector';
+interface PageProps {
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
-export default async function CompetitionPage({ params }: { params: { id: string } }) {
+export default async function CompetitionPage({ params, searchParams }: PageProps) {
+  const { id } = await params;
     const [competition, standings, matches, scorers, teams] = await Promise.all([
-        getCompetitionDetails(params.id),
-        getCompetitionStandings(params.id),
-        getCompetitionMatches(params.id),
-        getCompetitionScorers(params.id),
-        getCompetitionTeams(params.id),
+        getCompetitionDetails(id),
+        getCompetitionStandings(id),
+        getCompetitionMatches(id),
+        getCompetitionScorers(id),
+        getCompetitionTeams(id),
       ]);  if (!competition) return notFound();
 
   const { 

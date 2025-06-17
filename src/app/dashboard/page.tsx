@@ -4,15 +4,11 @@ import { MatchesList } from '@/components/matchlist/MatchList';
 import { useCompetitions } from '@/hooks/useFootballData';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getTodaysMatches, getLiveMatches } from '../api/footballdata';
 import { 
   Trophy, 
   Calendar, 
   Clock, 
-  TrendingUp, 
   Globe,
-  Play,
-  Pause,
   ArrowRight,
   Star,
   Zap,
@@ -21,10 +17,6 @@ import {
   ArrowUpDown,
   Award,
   Shuffle,
-  TrendingDown,
-  ExternalLink,
-  Activity,
-  BarChart3
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 

@@ -28,12 +28,14 @@ const AreaList: React.FC<AreaListProps> = ({ areas, onAreaClick }) => {
           {(area as any).countryCode && (
             <p className="text-gray-600">Country: {(area as any).countryCode}</p>
           )}
-          {area.parentArea && (
-            <p className="text-sm text-gray-500 mt-1">Parent region: {area.parentArea}</p>
+          {/* Fixed: Only show if parentArea exists */}
+          {(area as any).parentArea && (
+            <p className="text-sm text-gray-500 mt-1">Parent region: {(area as any).parentArea}</p>
           )}
-          {area.flag && (
+          {/* Fixed: Only show if flag exists */}
+          {(area as any).flag && (
             <img 
-              src={area.flag} 
+              src={(area as any).flag} 
               alt={`Flag of ${area.name}`} 
               className="h-5 mt-2" 
             />

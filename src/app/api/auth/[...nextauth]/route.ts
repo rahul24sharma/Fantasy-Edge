@@ -2,7 +2,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs"; // Changed from bcrypt to bcryptjs
 
 const prisma = new PrismaClient();
 
@@ -11,25 +11,57 @@ const handler = NextAuth({
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: {},
-        password: {},
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const user = await prisma.user.findUnique({
-          where: { email: credentials?.email },
-        });
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Email and password are required");
+        }
 
-        if (!user) throw new Error("User not found");
+        try {
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email },
+          });
 
-        const isValid = await bcrypt.compare(credentials!.password, user.password);
-        if (!isValid) throw new Error("Invalid password");
+          if (!user) {
+            throw new Error("User not found");
+          }
 
-        return { id: user.id, email: user.email, name: user.name };
+          const isValid = await bcryptjs.compare(credentials.password, user.password);
+          if (!isValid) {
+            throw new Error("Invalid password");
+          }
+
+          return { 
+            id: user.id.toString(), 
+            email: user.email, 
+            name: user.name 
+          };
+        } catch (error) {
+          console.error("Authentication error:", error);
+          throw new Error("Authentication failed");
+        }
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token && session.user) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+  },
   pages: {
     signIn: '/login',
+    error: '/login',
   },
   session: {
     strategy: 'jwt',

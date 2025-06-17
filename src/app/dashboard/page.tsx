@@ -128,7 +128,7 @@ export default function DashboardPage() {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemoveup', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove); // Fixed: 'mousemove' instead of 'mousemoveup'
   }, []);
 
   const containerVariants = {

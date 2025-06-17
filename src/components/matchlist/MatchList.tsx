@@ -259,11 +259,12 @@ function MatchCard({ match, index }: { match: Match; index: number }) {
 
   return (
     <div 
-      className="group bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:border-white/40 hover:bg-white/10 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl"
+      className="group bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:border-white/40 hover:bg-white/10 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl animate-fadeInUp opacity-0"
       style={{
         animationDelay: `${index * 0.1}s`,
-        animation: 'fadeInUp 0.6s ease-out forwards',
-        opacity: 0
+        animationDuration: '0.6s',
+        animationFillMode: 'forwards',
+        animationTimingFunction: 'ease-out'
       }}
     >
       {/* Match Header */}
@@ -382,25 +383,4 @@ function MatchCard({ match, index }: { match: Match; index: number }) {
       )}
     </div>
   );
-}
-
-// Add CSS for animations
-const styles = `
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-`;
-
-// Inject styles
-if (typeof document !== 'undefined') {
-  const styleSheet = document.createElement('style');
-  styleSheet.textContent = styles;
-  document.head.appendChild(styleSheet);
 }

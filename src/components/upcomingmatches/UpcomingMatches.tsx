@@ -28,6 +28,14 @@ interface Match {
   };
 }
 
+// Define the API response type
+interface CompetitionMatchesResponse {
+  matches: Match[];
+  count?: number;
+  filters?: any;
+  competition?: any;
+}
+
 interface UpcomingMatchesProps {
   competitionId: string | number;
 }
@@ -51,7 +59,8 @@ export default function UpcomingMatches({ competitionId }: UpcomingMatchesProps)
           dateFrom: today.toISOString().split('T')[0],
           dateTo: nextWeek.toISOString().split('T')[0],
           status: 'SCHEDULED'
-        });
+        }) as CompetitionMatchesResponse; // Fixed: Type cast the response
+        
         console.log('Upcoming Matches Data:', data);
         setMatches(data.matches || []);
       } catch (err) {

@@ -14,10 +14,11 @@ import {
   Cloud
 } from '@react-three/drei';
 import { motion } from 'framer-motion';
+import * as THREE from 'three';
 
 // Animated Football with realistic texture and spin
-function AnimatedFootball({ position = [0, 0, 0] }) {
-  const meshRef = useRef();
+function AnimatedFootball({ position = [0, 0, 0] }: { position?: [number, number, number] }) {
+  const meshRef = useRef<THREE.Mesh>(null); // Fixed: Added proper TypeScript type
   const [hovered, setHovered] = useState(false);
   
   useFrame((state) => {
@@ -60,7 +61,7 @@ function AnimatedFootball({ position = [0, 0, 0] }) {
 
 // Dynamic Football Field
 function FootballField() {
-  const fieldRef = useRef();
+  const fieldRef = useRef<THREE.Group>(null); // Fixed: Added proper TypeScript type
   
   return (
     <group ref={fieldRef} position={[0, -2, 0]}>
@@ -117,8 +118,12 @@ function FootballField() {
 }
 
 // Animated Player Figures
-function PlayerFigure({ position, color, delay = 0 }) {
-  const playerRef = useRef();
+function PlayerFigure({ position, color, delay = 0 }: { 
+  position: [number, number, number]; 
+  color: string; 
+  delay?: number; 
+}) {
+  const playerRef = useRef<THREE.Group>(null); // Fixed: Added proper TypeScript type
   
   useFrame((state) => {
     if (playerRef.current) {
@@ -156,8 +161,8 @@ function PlayerFigure({ position, color, delay = 0 }) {
 }
 
 // Particle Goal Effect
-function GoalExplosion({ trigger }) {
-  const particlesRef = useRef();
+function GoalExplosion({ trigger }: { trigger: boolean }) {
+  const particlesRef = useRef<THREE.Group>(null); // Fixed: Added proper TypeScript type
   const [particles] = useState(() => {
     const temp = [];
     for (let i = 0; i < 50; i++) {
@@ -166,7 +171,7 @@ function GoalExplosion({ trigger }) {
           (Math.random() - 0.5) * 2,
           Math.random() * 2,
           (Math.random() - 0.5) * 2
-        ],
+        ] as [number, number, number],
         velocity: [
           (Math.random() - 0.5) * 0.1,
           Math.random() * 0.1,
@@ -180,7 +185,7 @@ function GoalExplosion({ trigger }) {
   
   useFrame(() => {
     if (trigger && particlesRef.current) {
-      particles.forEach((particle, i) => {
+      particles.forEach((particle) => {
         particle.position[0] += particle.velocity[0];
         particle.position[1] += particle.velocity[1];
         particle.position[2] += particle.velocity[2];
@@ -271,7 +276,7 @@ function FootballScene() {
       
       {/* Stadium atmosphere */}
       <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-      <Cloud opacity={0.1} speed={0.4} width={10} depth={1.5} segments={20} />
+      <Cloud opacity={0.1} speed={0.4} scale={[10, 1.5, 10]} segments={20} />
       
       {/* Football Field */}
       <FootballField />
@@ -330,7 +335,7 @@ export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => { // Fixed: Added proper TypeScript type
       setMousePosition({
         x: (e.clientX / window.innerWidth) * 2 - 1,
         y: -(e.clientY / window.innerHeight) * 2 + 1

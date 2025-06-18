@@ -6,27 +6,76 @@ const API_KEY = "8bba67bee162456589814afddce138db";
 
 // Helper function to validate and adjust date ranges
 function validateDateRange(fromDate: string, toDate: string) {
-  const from = new Date(fromDate);
-  const to = new Date(toDate);
-  const daysDiff = Math.ceil((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24));
-  
-  if (daysDiff > 10) {
-    const adjustedTo = new Date(from);
-    adjustedTo.setDate(from.getDate() + 10);
+  try {
+    const from = new Date(fromDate);
+    const to = new Date(toDate);
+    
+    // Check if dates are valid
+    if (isNaN(from.getTime()) || isNaN(to.getTime())) {
+      throw new Error('Invalid date format provided');
+    }
+    
+    // Ensure fromDate is not after toDate
+    if (from > to) {
+      return {
+        fromDate: toDate,
+        toDate: fromDate,
+        adjusted: true,
+        originalDays: 0,
+        warning: 'Date range was reversed (fromDate was after toDate)'
+      };
+    }
+    
+    const daysDiff = Math.ceil((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24));
+    
+    // Football-data.org API limit: max 10 days
+    if (daysDiff > 10) {
+      const adjustedTo = new Date(from);
+      adjustedTo.setDate(from.getDate() + 10);
+      return {
+        fromDate: fromDate,
+        toDate: adjustedTo.toISOString().split('T')[0],
+        adjusted: true,
+        originalDays: daysDiff,
+        warning: `Date range reduced from ${daysDiff} days to 10 days (API limit)`
+      };
+    }
+    
+    // If date range is 0 (same day), extend to at least 1 day
+    if (daysDiff === 0) {
+      const adjustedTo = new Date(from);
+      adjustedTo.setDate(from.getDate() + 1);
+      return {
+        fromDate: fromDate,
+        toDate: adjustedTo.toISOString().split('T')[0],
+        adjusted: true,
+        originalDays: 0,
+        warning: 'Extended single day to 1-day range for better results'
+      };
+    }
+    
     return {
       fromDate,
-      toDate: adjustedTo.toISOString().split('T')[0],
+      toDate,
+      adjusted: false,
+      originalDays: daysDiff,
+      warning: null
+    };
+    
+  } catch (error) {
+    // Return a safe default range if validation fails
+    const today = new Date();
+    const nextWeek = new Date(today);
+    nextWeek.setDate(today.getDate() + 7);
+    
+    return {
+      fromDate: today.toISOString().split('T')[0],
+      toDate: nextWeek.toISOString().split('T')[0],
       adjusted: true,
-      originalDays: daysDiff
+      originalDays: -1,
+      warning: `Date validation failed, using default range: ${error instanceof Error ? error.message : 'Unknown error'}`
     };
   }
-  
-  return {
-    fromDate,
-    toDate,
-    adjusted: false,
-    originalDays: daysDiff
-  };
 }
 
 export async function GET(request: NextRequest) {

@@ -32,47 +32,6 @@ export function useCompetitions(areas?: string) {
   return { competitions, loading, error };
 }
 
-// export function useMatches(filters?: {
-//   competitions?: string;
-//   dateFrom?: string;
-//   dateTo?: string;
-//   status?: string;
-// }) {
-//   const [matches, setMatches] = useState<Match[]>([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState<string | null>(null);
-
-//   useEffect(() => {
-//     async function fetchMatches() {
-//       try {
-//         setLoading(true);
-//         const params = new URLSearchParams();
-        
-//         if (filters) {
-//           Object.entries(filters).forEach(([key, value]) => {
-//             if (value) params.append(key, value);
-//           });
-//         }
-
-//         const response = await fetch(`/api/matches?${params.toString()}`);
-        
-//         if (!response.ok) throw new Error('Failed to fetch matches');
-        
-//         const data = await response.json();
-//         setMatches(data.matches || []);
-//       } catch (err) {
-//         setError(err instanceof Error ? err.message : 'Unknown error');
-//       } finally {
-//         setLoading(false);
-//       }
-//     }
-
-//     fetchMatches();
-//   }, [filters]);
-
-//   return { matches, loading, error };
-// }
-
 export function useMatches(filters?: {
   competitions?: string;
   dateFrom?: string;

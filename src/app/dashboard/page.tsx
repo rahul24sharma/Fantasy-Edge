@@ -1008,10 +1008,6 @@ export default function DashboardPage() {
                       </div>
                       <div className="flex items-center justify-center gap-4 text-xs text-white/50">
                         <div className="flex items-center gap-1">
-                          <Users className="w-3 h-3" />
-                          <span>{competition.numberOfAvailableSeasons || 0} seasons</span>
-                        </div>
-                        <div className="flex items-center gap-1">
                           <Calendar className="w-3 h-3" />
                           <span>{competition.currentSeason?.currentMatchday || 0} MD</span>
                         </div>
